@@ -1,0 +1,15 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t roi/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run roi/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t roi/multi-client ./client
+  - docker build -t roi/multi-nginx ./nginx
+  - docker build -t roi/multi-server ./server
+  - docker build -t roi/multi-worker ./worker
