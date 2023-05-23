@@ -3,13 +3,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t roi/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t roinelson/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run roi/react-test npm test -- --coverage
+  - docker run roinelson/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t roi/multi-client ./client
-  - docker build -t roi/multi-nginx ./nginx
-  - docker build -t roi/multi-server ./server
-  - docker build -t roi/multi-worker ./worker
+  - docker build -t roinelson/multi-client ./client
+  - docker build -t roinelson/multi-nginx ./nginx
+  - docker build -t roinelson/multi-server ./server
+  - docker build -t roinelson/multi-worker ./worker
+  # Login to docker cli
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Push to docker hub
+  - docker push roinelson/multi-client
+  - docker push roinelson/multi-nginx
+  - docker push roinelson/multi-server
+  - docker push roinelson/multi-worker
