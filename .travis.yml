@@ -13,7 +13,7 @@ after_success:
   - docker build -t roinelson/multi-nginx ./nginx
   - docker build -t roinelson/multi-server ./server
   - docker build -t roinelson/multi-worker ./worker
-  # Login to docker cli
+  # Login to docker CLI 
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Push to docker hub
   - docker push roinelson/multi-client
